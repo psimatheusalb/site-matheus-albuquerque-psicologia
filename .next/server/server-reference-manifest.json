@@ -1,0 +1,97 @@
+{
+  "node": {
+    "00eab0c5f935916aff220a03fa3f853b40356833a6": {
+      "workers": {
+        "app/api/ratings/route": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22C%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cratings%5C%5Croute.ts%22%2C%5B%7B%22id%22%3A%2200eab0c5f935916aff220a03fa3f853b40356833a6%22%2C%22exportedName%22%3A%22GET%22%2C%22filename%22%3A%22..%2FC%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cratings%5C%5Croute.ts%22%7D%2C%7B%22id%22%3A%2240c296b7951721f20c4ca7dcec1efeaea199925952%22%2C%22exportedName%22%3A%22POST%22%2C%22filename%22%3A%22..%2FC%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cratings%5C%5Croute.ts%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/api/ratings/route": "rsc"
+      },
+      "filename": "../C:\\Users\\User\\Downloads\\Matheus projeto\\src\\app\\api\\ratings\\route.ts",
+      "exportedName": "GET"
+    },
+    "40c296b7951721f20c4ca7dcec1efeaea199925952": {
+      "workers": {
+        "app/api/ratings/route": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22C%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cratings%5C%5Croute.ts%22%2C%5B%7B%22id%22%3A%2200eab0c5f935916aff220a03fa3f853b40356833a6%22%2C%22exportedName%22%3A%22GET%22%2C%22filename%22%3A%22..%2FC%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cratings%5C%5Croute.ts%22%7D%2C%7B%22id%22%3A%2240c296b7951721f20c4ca7dcec1efeaea199925952%22%2C%22exportedName%22%3A%22POST%22%2C%22filename%22%3A%22..%2FC%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cratings%5C%5Croute.ts%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/api/ratings/route": "rsc"
+      },
+      "filename": "../C:\\Users\\User\\Downloads\\Matheus projeto\\src\\app\\api\\ratings\\route.ts",
+      "exportedName": "POST"
+    },
+    "0065e6b99f95dd91a424b560fec20c810b3671d315": {
+      "workers": {
+        "app/api/admin/me/route": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22C%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cadmin%5C%5Cme%5C%5Croute.ts%22%2C%5B%7B%22id%22%3A%220065e6b99f95dd91a424b560fec20c810b3671d315%22%2C%22exportedName%22%3A%22GET%22%2C%22filename%22%3A%22..%2FC%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cadmin%5C%5Cme%5C%5Croute.ts%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/api/admin/me/route": "rsc"
+      },
+      "filename": "../C:\\Users\\User\\Downloads\\Matheus projeto\\src\\app\\api\\admin\\me\\route.ts",
+      "exportedName": "GET"
+    },
+    "00d967870bb34f000e10b52eb9a1392151605a7347": {
+      "workers": {
+        "app/api/photos/route": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22C%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cphotos%5C%5Croute.ts%22%2C%5B%7B%22id%22%3A%2200d967870bb34f000e10b52eb9a1392151605a7347%22%2C%22exportedName%22%3A%22GET%22%2C%22filename%22%3A%22..%2FC%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cphotos%5C%5Croute.ts%22%7D%2C%7B%22id%22%3A%2240a5e55d9851726f35017945e92501d02c351241ca%22%2C%22exportedName%22%3A%22DELETE%22%2C%22filename%22%3A%22..%2FC%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cphotos%5C%5Croute.ts%22%7D%2C%7B%22id%22%3A%2240da0def510ccf70565fdd1e3ba3427fb2d02034a0%22%2C%22exportedName%22%3A%22POST%22%2C%22filename%22%3A%22..%2FC%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cphotos%5C%5Croute.ts%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/api/photos/route": "rsc"
+      },
+      "filename": "../C:\\Users\\User\\Downloads\\Matheus projeto\\src\\app\\api\\photos\\route.ts",
+      "exportedName": "GET"
+    },
+    "40a5e55d9851726f35017945e92501d02c351241ca": {
+      "workers": {
+        "app/api/photos/route": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22C%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cphotos%5C%5Croute.ts%22%2C%5B%7B%22id%22%3A%2200d967870bb34f000e10b52eb9a1392151605a7347%22%2C%22exportedName%22%3A%22GET%22%2C%22filename%22%3A%22..%2FC%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cphotos%5C%5Croute.ts%22%7D%2C%7B%22id%22%3A%2240a5e55d9851726f35017945e92501d02c351241ca%22%2C%22exportedName%22%3A%22DELETE%22%2C%22filename%22%3A%22..%2FC%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cphotos%5C%5Croute.ts%22%7D%2C%7B%22id%22%3A%2240da0def510ccf70565fdd1e3ba3427fb2d02034a0%22%2C%22exportedName%22%3A%22POST%22%2C%22filename%22%3A%22..%2FC%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cphotos%5C%5Croute.ts%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/api/photos/route": "rsc"
+      },
+      "filename": "../C:\\Users\\User\\Downloads\\Matheus projeto\\src\\app\\api\\photos\\route.ts",
+      "exportedName": "DELETE"
+    },
+    "40da0def510ccf70565fdd1e3ba3427fb2d02034a0": {
+      "workers": {
+        "app/api/photos/route": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22C%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cphotos%5C%5Croute.ts%22%2C%5B%7B%22id%22%3A%2200d967870bb34f000e10b52eb9a1392151605a7347%22%2C%22exportedName%22%3A%22GET%22%2C%22filename%22%3A%22..%2FC%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cphotos%5C%5Croute.ts%22%7D%2C%7B%22id%22%3A%2240a5e55d9851726f35017945e92501d02c351241ca%22%2C%22exportedName%22%3A%22DELETE%22%2C%22filename%22%3A%22..%2FC%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cphotos%5C%5Croute.ts%22%7D%2C%7B%22id%22%3A%2240da0def510ccf70565fdd1e3ba3427fb2d02034a0%22%2C%22exportedName%22%3A%22POST%22%2C%22filename%22%3A%22..%2FC%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cphotos%5C%5Croute.ts%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/api/photos/route": "rsc"
+      },
+      "filename": "../C:\\Users\\User\\Downloads\\Matheus projeto\\src\\app\\api\\photos\\route.ts",
+      "exportedName": "POST"
+    },
+    "407941005cd0cdecc426b8ab3aa0fb36ddd520c47d": {
+      "workers": {
+        "app/api/admin/login/route": {
+          "moduleId": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22C%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cadmin%5C%5Clogin%5C%5Croute.ts%22%2C%5B%7B%22id%22%3A%22407941005cd0cdecc426b8ab3aa0fb36ddd520c47d%22%2C%22exportedName%22%3A%22POST%22%2C%22filename%22%3A%22..%2FC%3A%5C%5CUsers%5C%5CUser%5C%5CDownloads%5C%5CMatheus%20projeto%5C%5Csrc%5C%5Capp%5C%5Capi%5C%5Cadmin%5C%5Clogin%5C%5Croute.ts%22%7D%5D%5D%5D&__client_imported__=!",
+          "async": false
+        }
+      },
+      "layer": {
+        "app/api/admin/login/route": "rsc"
+      },
+      "filename": "../C:\\Users\\User\\Downloads\\Matheus projeto\\src\\app\\api\\admin\\login\\route.ts",
+      "exportedName": "POST"
+    }
+  },
+  "edge": {},
+  "encryptionKey": "xJ3kCQeOBEPHaQzhpbU4Ii2C/TZhx/+CuRmKTXSWhWU="
+}
