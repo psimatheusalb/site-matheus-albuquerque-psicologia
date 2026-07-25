@@ -86,6 +86,17 @@ body {
   background-color: rgba(148, 128, 118, 0.25);
 }
 
+.dark .from-brand-blue\/15 { --tw-gradient-from: rgba(79, 97, 121, 0.35) var(--tw-gradient-from-position); --tw-gradient-to: rgba(79, 97, 121, 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+.dark .to-brand-beige\/55 { --tw-gradient-to: rgba(230, 223, 217, 0.25) var(--tw-gradient-to-position); }
+.dark .via-white { --tw-gradient-to: rgba(17, 28, 46, 0) var(--tw-gradient-to-position); --tw-gradient-stops: var(--tw-gradient-from), rgba(17, 28, 46, 1) var(--tw-gradient-via-position), var(--tw-gradient-to); }
+
+.dark .bg-gradient-to-tr.from-brand-green.via-brand-blue.to-brand-brown {
+  background-image: linear-gradient(to top right, #1a352c, #3e4e61, #4a2a18);
+}
+
+.dark .ring-brand-green\/60 { --tw-ring-color: rgba(125, 150, 140, 0.5); }
+.dark .ring-brand-gray\/60 { --tw-ring-color: rgba(196, 181, 171, 0.25); }
+
 ::selection {
   background: rgba(31, 65, 53, 0.25);
 }

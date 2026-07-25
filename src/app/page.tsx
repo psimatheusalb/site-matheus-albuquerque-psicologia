@@ -180,6 +180,7 @@ export default async function HomePage() {
         <Container>
           <div className="flex items-center justify-between py-4">
             <div className="flex items-center gap-6">
+              <ThemeToggle />
               <div>
                 <a href="#inicio" className="inline-flex items-center gap-3">
                   <BrandLogo
@@ -213,7 +214,6 @@ export default async function HomePage() {
               <div className="hidden sm:block">
                 <WhatsappCta />
               </div>
-              <ThemeToggle />
               <AdminAccess />
             </div>
           </div>
