@@ -2,7 +2,6 @@
 
 import { NextResponse } from "next/server";
 import { kv } from "@vercel/kv";
-import { put } from "@vercel/blob";
 import { requireAdmin } from "@/lib/adminAuth";
 
 type PhotoSlot = "hero" | "photo-1" | "photo-2" | "photo-3";
@@ -11,6 +10,16 @@ const KV_KEY = "site:photos";
 
 function isSlot(value: unknown): value is PhotoSlot {
   return value === "hero" || value === "photo-1" || value === "photo-2" || value === "photo-3";
+}
+
+function slotToField(slot: PhotoSlot): string {
+  return slot === "hero"
+    ? "hero"
+    : slot === "photo-1"
+      ? "photo1"
+      : slot === "photo-2"
+        ? "photo2"
+        : "photo3";
 }
 
 export async function GET() {
@@ -30,39 +39,25 @@ export async function GET() {
 export async function POST(request: Request) {
   await requireAdmin();
 
-  const form = await request.formData();
-  const slot = form.get("slot");
-  const file = form.get("file");
+  const body = (await request.json().catch(() => null)) as
+    | { slot?: string; url?: string }
+    | null;
 
-  if (!isSlot(slot) || !(file instanceof File)) {
+  const slot = body?.slot;
+  const url = body?.url;
+
+  if (!isSlot(slot) || typeof url !== "string" || url.trim().length === 0) {
     return NextResponse.json({ ok: false }, { status: 400 });
   }
 
-  const ext =
-    file.type === "image/png"
-      ? "png"
-      : file.type === "image/webp"
-        ? "webp"
-        : "jpg";
+  const field = slotToField(slot);
 
-  const pathname = `photos/${slot}-${Date.now()}.${ext}`;
   try {
-    const blob = await put(pathname, file, { access: "public" });
-
-    const field =
-      slot === "hero"
-        ? "hero"
-        : slot === "photo-1"
-          ? "photo1"
-          : slot === "photo-2"
-            ? "photo2"
-            : "photo3";
-
-    await kv.hset(KV_KEY, { [field]: blob.url });
-    return NextResponse.json({ ok: true, url: blob.url, field });
+    await kv.hset(KV_KEY, { [field]: url.trim() });
+    return NextResponse.json({ ok: true, url: url.trim(), field });
   } catch {
     return NextResponse.json(
-      { ok: false, error: "Storage não configurado" },
+      { ok: false, error: "KV não configurado" },
       { status: 500 }
     );
   }
@@ -77,14 +72,7 @@ export async function DELETE(request: Request) {
     return NextResponse.json({ ok: false }, { status: 400 });
   }
 
-  const field =
-    slot === "hero"
-      ? "hero"
-      : slot === "photo-1"
-        ? "photo1"
-        : slot === "photo-2"
-          ? "photo2"
-          : "photo3";
+  const field = slotToField(slot);
 
   try {
     await kv.hdel(KV_KEY, field);
