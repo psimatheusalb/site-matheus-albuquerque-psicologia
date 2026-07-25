@@ -46,6 +46,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="pt-BR" className={`${bodyFont.variable} ${displayFont.variable}`}>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `(function(){try{var t=localStorage.getItem('theme');if(t==='dark'||(t===null&&window.matchMedia('(prefers-color-scheme: dark)').matches)){document.documentElement.classList.add('dark')}}catch(e){}})();`
+          }}
+        />
+      </head>
       <body className="min-h-screen [font-family:var(--font-body)]">
         {children}
         <FloatingWhatsapp />

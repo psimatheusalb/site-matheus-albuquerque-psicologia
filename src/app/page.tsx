@@ -7,6 +7,7 @@ import { BrandLogo } from "@/components/BrandLogo";
 import { SmartImage } from "@/components/SmartImage";
 import { Ratings } from "@/components/Ratings";
 import { AdminAccess } from "@/components/AdminAccess";
+import { ThemeToggle } from "@/components/ThemeToggle";
 import { site } from "@/lib/site";
 import { getStoredPhotos } from "@/lib/photos";
 
@@ -212,6 +213,7 @@ export default async function HomePage() {
               <div className="hidden sm:block">
                 <WhatsappCta />
               </div>
+              <ThemeToggle />
               <AdminAccess />
             </div>
           </div>
