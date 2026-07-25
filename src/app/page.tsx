@@ -177,10 +177,15 @@ export default async function HomePage() {
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-brand-gray/70 bg-white/80 backdrop-blur">
+        <div className="absolute left-0 top-0 z-50 hidden h-full items-center sm:flex">
+          <ThemeToggle />
+        </div>
         <Container>
-          <div className="flex items-center justify-between py-4">
+          <div className="flex items-center justify-between py-4 sm:pl-0">
             <div className="flex items-center gap-6">
-              <ThemeToggle />
+              <div className="sm:hidden">
+                <ThemeToggle />
+              </div>
               <div>
                 <a href="#inicio" className="inline-flex items-center gap-3">
                   <BrandLogo
