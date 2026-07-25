@@ -5,6 +5,9 @@ import { NextResponse } from "next/server";
 import { ADMIN_COOKIE_NAME } from "@/lib/adminAuth";
 import { createAdminSession } from "@/lib/adminSession";
 
+const ADMIN_EMAIL = "psi.matheusalb@gmail.com";
+const ADMIN_PASSWORD = "Ps1colog1@";
+
 function safeEqual(a: string, b: string) {
   const aa = Buffer.from(a);
   const bb = Buffer.from(b);
@@ -13,16 +16,6 @@ function safeEqual(a: string, b: string) {
 }
 
 export async function POST(request: Request) {
-  const adminEmail = process.env.ADMIN_EMAIL;
-  const adminPassword = process.env.ADMIN_PASSWORD;
-
-  if (!adminEmail || !adminPassword || !process.env.ADMIN_SESSION_SECRET) {
-    return NextResponse.json(
-      { ok: false, error: "Admin não configurado" },
-      { status: 500 }
-    );
-  }
-
   const body = (await request.json().catch(() => null)) as
     | { email?: string; password?: string }
     | null;
@@ -37,7 +30,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const ok = safeEqual(email, adminEmail) && safeEqual(password, adminPassword);
+  const ok = safeEqual(email, ADMIN_EMAIL) && safeEqual(password, ADMIN_PASSWORD);
   if (!ok) {
     return NextResponse.json(
       { ok: false, error: "Credenciais inválidas" },
