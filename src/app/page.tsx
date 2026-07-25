@@ -544,7 +544,7 @@ export default async function HomePage() {
         <section className="py-16 sm:py-20">
           <Container>
             <MotionInView>
-              <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-tr from-sage-900 via-ink-900 to-brand-blue px-7 py-12 shadow-soft sm:px-12 sm:py-14">
+              <div className="relative overflow-hidden rounded-[2rem] bg-gradient-to-tr from-brand-green via-brand-blue to-brand-brown px-7 py-12 shadow-soft sm:px-12 sm:py-14">
                 <div className="absolute inset-0 opacity-20">
                   <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-brand-blue blur-3xl" />
                   <div className="absolute -bottom-24 -right-24 h-72 w-72 rounded-full bg-brand-brown blur-3xl" />

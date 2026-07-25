@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { createPortal } from "react-dom";
+import { AnimatePresence, motion } from "framer-motion";
 
 type AdminMe = { authenticated: boolean; email: string | null };
 type PhotosState = { hero: string | null; photo1: string | null; photo2: string | null; photo3: string | null };
@@ -15,6 +17,12 @@ export function AdminAccess() {
   const [photos, setPhotos] = useState<PhotosState>({ hero: null, photo1: null, photo2: null, photo3: null });
   const [ratingsCount, setRatingsCount] = useState<number | null>(null);
   const [uploading, setUploading] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
 
   const authenticated = me.authenticated;
 
@@ -172,6 +180,129 @@ export function AdminAccess() {
     );
   };
 
+  const modalContent = open ? (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[70] flex items-center justify-center p-4 overflow-y-auto"
+    >
+      <motion.button
+        type="button"
+        onClick={close}
+        className="fixed inset-0 bg-ink-900/50 backdrop-blur-sm"
+        aria-label="Fechar"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+      />
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.2 }}
+        className="relative w-full max-w-2xl overflow-hidden rounded-[2rem] border border-ink-100 bg-white p-7 shadow-soft sm:p-10 my-auto">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-sm font-semibold text-ink-900">{title}</p>
+            <p className="mt-2 text-sm text-ink-700">
+              {authenticated ? "Gerencie fotos e avaliações do site." : "Entre com suas credenciais para acessar."}
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={close}
+            className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-ink-700 ring-1 ring-ink-100 transition hover:bg-brand-beige/40 focus:outline-none focus-visible:shadow-ring"
+          >
+            Fechar
+          </button>
+        </div>
+
+        {!authenticated ? (
+          <form onSubmit={handleLogin} className="mt-6 grid gap-4">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Email</p>
+              <input
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                className="mt-2 w-full rounded-xl border border-ink-100 bg-white px-4 py-3 text-sm text-ink-900 shadow-soft focus:outline-none focus-visible:shadow-ring"
+                placeholder="seuemail@dominio.com"
+                autoComplete="username"
+              />
+            </div>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Senha</p>
+              <input
+                type="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                className="mt-2 w-full rounded-xl border border-ink-100 bg-white px-4 py-3 text-sm text-ink-900 shadow-soft focus:outline-none focus-visible:shadow-ring"
+                placeholder="Sua senha"
+                autoComplete="current-password"
+              />
+            </div>
+            {error ? <p className="text-xs font-medium text-brand-brown">{error}</p> : null}
+            <div className="flex justify-end gap-2 pt-2">
+              <button
+                type="submit"
+                className="inline-flex items-center justify-center rounded-full bg-brand-green px-6 py-3 text-sm font-medium text-white shadow-soft transition hover:bg-brand-green focus:outline-none focus-visible:shadow-ring"
+              >
+                Entrar
+              </button>
+            </div>
+          </form>
+        ) : (
+          <div className="mt-7 grid gap-6">
+            <div className="rounded-xl2 border border-ink-100 bg-white p-6 shadow-soft">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Sessão</p>
+                  <p className="mt-2 text-sm font-semibold text-ink-900">{me.email}</p>
+                </div>
+                <button
+                  type="button"
+                  onClick={handleLogout}
+                  className="rounded-full bg-white px-5 py-3 text-sm font-medium text-ink-700 ring-1 ring-ink-100 transition hover:bg-brand-beige/40 focus:outline-none focus-visible:shadow-ring"
+                >
+                  Sair
+                </button>
+              </div>
+            </div>
+
+            <div className="rounded-xl2 border border-ink-100 bg-white p-6 shadow-soft">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Fotos do site</p>
+              <div className="mt-4 grid gap-3">
+                <PhotoRow label="Hero (topo)" slot="hero" value={photos.hero} />
+                <PhotoRow label="Foto 1" slot="photo-1" value={photos.photo1} />
+                <PhotoRow label="Foto 2" slot="photo-2" value={photos.photo2} />
+                <PhotoRow label="Foto 3 (principal)" slot="photo-3" value={photos.photo3} />
+              </div>
+              {uploading ? <p className="mt-4 text-xs text-ink-600">Enviando: {uploading}</p> : null}
+            </div>
+
+            <div className="rounded-xl2 border border-ink-100 bg-white p-6 shadow-soft">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Admin</p>
+              <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
+                <p className="text-sm text-ink-700">
+                  Total de avaliações:{" "}
+                  <span className="font-semibold text-ink-900">{ratingsCount ?? "—"}</span>
+                </p>
+                <a
+                  href="#avaliacoes"
+                  onClick={close}
+                  className="rounded-full bg-white px-5 py-3 text-sm font-medium text-ink-700 ring-1 ring-ink-100 transition hover:bg-brand-beige/40 focus:outline-none focus-visible:shadow-ring"
+                >
+                  Ir para avaliações
+                </a>
+              </div>
+              {error ? <p className="mt-4 text-xs font-medium text-brand-brown">{error}</p> : null}
+            </div>
+          </div>
+        )}
+      </motion.div>
+    </motion.div>
+  ) : null;
+
   return (
     <>
       <button
@@ -182,114 +313,13 @@ export function AdminAccess() {
         Profissional
       </button>
 
-      {open ? (
-        <div className="fixed inset-0 z-[70] flex items-center justify-center p-4">
-          <button
-            type="button"
-            onClick={close}
-            className="absolute inset-0 bg-ink-900/50 backdrop-blur-sm"
-            aria-label="Fechar"
-          />
-          <div className="relative w-full max-w-2xl overflow-hidden rounded-[2rem] border border-ink-100 bg-white p-7 shadow-soft sm:p-10">
-            <div className="flex items-start justify-between gap-4">
-              <div>
-                <p className="text-sm font-semibold text-ink-900">{title}</p>
-                <p className="mt-2 text-sm text-ink-700">
-                  {authenticated ? "Gerencie fotos e avaliações do site." : "Entre com suas credenciais para acessar."}
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={close}
-                className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-ink-700 ring-1 ring-ink-100 transition hover:bg-brand-beige/40 focus:outline-none focus-visible:shadow-ring"
-              >
-                Fechar
-              </button>
-            </div>
-
-            {!authenticated ? (
-              <form onSubmit={handleLogin} className="mt-6 grid gap-4">
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Email</p>
-                  <input
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="mt-2 w-full rounded-xl border border-ink-100 bg-white px-4 py-3 text-sm text-ink-900 shadow-soft focus:outline-none focus-visible:shadow-ring"
-                    placeholder="seuemail@dominio.com"
-                    autoComplete="username"
-                  />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Senha</p>
-                  <input
-                    type="password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    className="mt-2 w-full rounded-xl border border-ink-100 bg-white px-4 py-3 text-sm text-ink-900 shadow-soft focus:outline-none focus-visible:shadow-ring"
-                    placeholder="Sua senha"
-                    autoComplete="current-password"
-                  />
-                </div>
-                {error ? <p className="text-xs font-medium text-brand-brown">{error}</p> : null}
-                <div className="flex justify-end gap-2 pt-2">
-                  <button
-                    type="submit"
-                    className="inline-flex items-center justify-center rounded-full bg-brand-green px-6 py-3 text-sm font-medium text-white shadow-soft transition hover:bg-brand-green focus:outline-none focus-visible:shadow-ring"
-                  >
-                    Entrar
-                  </button>
-                </div>
-              </form>
-            ) : (
-              <div className="mt-7 grid gap-6">
-                <div className="rounded-xl2 border border-ink-100 bg-white p-6 shadow-soft">
-                  <div className="flex flex-wrap items-center justify-between gap-3">
-                    <div>
-                      <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Sessão</p>
-                      <p className="mt-2 text-sm font-semibold text-ink-900">{me.email}</p>
-                    </div>
-                    <button
-                      type="button"
-                      onClick={handleLogout}
-                      className="rounded-full bg-white px-5 py-3 text-sm font-medium text-ink-700 ring-1 ring-ink-100 transition hover:bg-brand-beige/40 focus:outline-none focus-visible:shadow-ring"
-                    >
-                      Sair
-                    </button>
-                  </div>
-                </div>
-
-                <div className="rounded-xl2 border border-ink-100 bg-white p-6 shadow-soft">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Fotos do site</p>
-                  <div className="mt-4 grid gap-3">
-                    <PhotoRow label="Hero (topo)" slot="hero" value={photos.hero} />
-                    <PhotoRow label="Foto 1" slot="photo-1" value={photos.photo1} />
-                    <PhotoRow label="Foto 2" slot="photo-2" value={photos.photo2} />
-                    <PhotoRow label="Foto 3 (principal)" slot="photo-3" value={photos.photo3} />
-                  </div>
-                  {uploading ? <p className="mt-4 text-xs text-ink-600">Enviando: {uploading}</p> : null}
-                </div>
-
-                <div className="rounded-xl2 border border-ink-100 bg-white p-6 shadow-soft">
-                  <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Admin</p>
-                  <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
-                    <p className="text-sm text-ink-700">
-                      Total de avaliações:{" "}
-                      <span className="font-semibold text-ink-900">{ratingsCount ?? "—"}</span>
-                    </p>
-                    <a
-                      href="#avaliacoes"
-                      onClick={close}
-                      className="rounded-full bg-white px-5 py-3 text-sm font-medium text-ink-700 ring-1 ring-ink-100 transition hover:bg-brand-beige/40 focus:outline-none focus-visible:shadow-ring"
-                    >
-                      Ir para avaliações
-                    </a>
-                  </div>
-                  {error ? <p className="mt-4 text-xs font-medium text-brand-brown">{error}</p> : null}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+      {mounted ? (
+        createPortal(
+          <AnimatePresence>
+            {modalContent}
+          </AnimatePresence>,
+          document.body
+        )
       ) : null}
     </>
   );

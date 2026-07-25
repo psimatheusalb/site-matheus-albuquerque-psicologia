@@ -1,6 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { createPortal } from "react-dom";
+import { AnimatePresence, motion } from "framer-motion";
 
 export function WhatsAppLeadModal({
   open,
@@ -14,6 +16,12 @@ export function WhatsAppLeadModal({
   const [name, setName] = useState("");
   const [reason, setReason] = useState("");
   const [error, setError] = useState<string | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+    return () => setMounted(false);
+  }, []);
 
   useEffect(() => {
     if (!open) return;
@@ -30,8 +38,6 @@ export function WhatsAppLeadModal({
     setName("");
     setReason("");
   }, [open]);
-
-  if (!open) return null;
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
@@ -54,15 +60,28 @@ export function WhatsAppLeadModal({
     onClose();
   };
 
-  return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-      <button
+  const modalContent = (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-[60] flex items-center justify-center p-4 overflow-y-auto"
+    >
+      <motion.button
         type="button"
         onClick={onClose}
-        className="absolute inset-0 bg-ink-900/50 backdrop-blur-sm"
+        className="fixed inset-0 bg-ink-900/50 backdrop-blur-sm"
         aria-label="Fechar"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
       />
-      <div className="relative w-full max-w-md overflow-hidden rounded-[2rem] border border-ink-100 bg-white p-7 shadow-soft sm:p-10">
+      <motion.div
+        initial={{ opacity: 0, scale: 0.95 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.95 }}
+        transition={{ duration: 0.2 }}
+        className="relative w-full max-w-md overflow-hidden rounded-[2rem] border border-ink-100 bg-white p-7 shadow-soft sm:p-10 my-auto">
         <p className="text-sm font-semibold text-ink-900">
           Antes de ir para o WhatsApp
         </p>
@@ -114,8 +133,17 @@ export function WhatsAppLeadModal({
             </button>
           </div>
         </form>
-      </div>
-    </div>
+      </motion.div>
+    </motion.div>
+  );
+
+  if (!mounted) return null;
+
+  return createPortal(
+    <AnimatePresence>
+      {open && modalContent}
+    </AnimatePresence>,
+    document.body
   );
 }
 
