@@ -39,25 +39,31 @@ export async function GET() {
 export async function POST(request: Request) {
   await requireAdmin();
 
-  const body = (await request.json().catch(() => null)) as
-    | { slot?: string; url?: string }
-    | null;
-
-  const slot = body?.slot;
-  const url = body?.url;
-
-  if (!isSlot(slot) || typeof url !== "string" || url.trim().length === 0) {
+  const form = await request.formData().catch(() => null);
+  if (!form) {
     return NextResponse.json({ ok: false }, { status: 400 });
   }
 
-  const field = slotToField(slot);
+  const slot = form.get("slot");
+  const file = form.get("file");
+
+  if (!isSlot(slot) || !(file instanceof File)) {
+    return NextResponse.json({ ok: false }, { status: 400 });
+  }
 
   try {
-    await kv.hset(KV_KEY, { [field]: url.trim() });
-    return NextResponse.json({ ok: true, url: url.trim(), field });
+    const bytes = await file.arrayBuffer();
+    const buffer = Buffer.from(bytes);
+    const base64 = buffer.toString("base64");
+    const mime = file.type || "image/jpeg";
+    const dataUrl = `data:${mime};base64,${base64}`;
+
+    const field = slotToField(slot);
+    await kv.hset(KV_KEY, { [field]: dataUrl });
+    return NextResponse.json({ ok: true, url: dataUrl, field });
   } catch {
     return NextResponse.json(
-      { ok: false, error: "KV não configurado" },
+      { ok: false, error: "Falha ao salvar imagem (verifique o tamanho)" },
       { status: 500 }
     );
   }

@@ -16,13 +16,8 @@ export function AdminAccess() {
   const [error, setError] = useState<string | null>(null);
   const [photos, setPhotos] = useState<PhotosState>({ hero: null, photo1: null, photo2: null, photo3: null });
   const [ratingsCount, setRatingsCount] = useState<number | null>(null);
-  const [saving, setSaving] = useState<string | null>(null);
+  const [uploading, setUploading] = useState<string | null>(null);
   const [mounted, setMounted] = useState(false);
-
-  const [draftHero, setDraftHero] = useState("");
-  const [draftPhoto1, setDraftPhoto1] = useState("");
-  const [draftPhoto2, setDraftPhoto2] = useState("");
-  const [draftPhoto3, setDraftPhoto3] = useState("");
 
   useEffect(() => {
     setMounted(true);
@@ -54,10 +49,6 @@ export function AdminAccess() {
       photo2: photosData.photo2 ?? null,
       photo3: photosData.photo3 ?? null
     });
-    setDraftHero(photosData.hero ?? "");
-    setDraftPhoto1(photosData.photo1 ?? "");
-    setDraftPhoto2(photosData.photo2 ?? "");
-    setDraftPhoto3(photosData.photo3 ?? "");
 
     const ratingsData = (await ratingsRes.json()) as RatingsState;
     setRatingsCount(Array.isArray(ratingsData.entries) ? ratingsData.entries.length : 0);
@@ -106,59 +97,37 @@ export function AdminAccess() {
     window.dispatchEvent(new Event("admin-auth-changed"));
   };
 
-  const saveUrl = async (slot: "hero" | "photo-1" | "photo-2" | "photo-3", url: string) => {
-    setSaving(slot);
+  const upload = async (slot: "hero" | "photo-1" | "photo-2" | "photo-3", file: File) => {
+    setUploading(slot);
     setError(null);
     try {
-      const res = await fetch("/api/photos", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ slot, url: url.trim() })
-      });
+      const form = new FormData();
+      form.set("slot", slot);
+      form.set("file", file);
+      const res = await fetch("/api/photos", { method: "POST", body: form });
       const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
       if (!res.ok || !data?.ok) {
-        setError(data?.error ?? "Falha ao salvar foto");
+        setError(data?.error ?? "Falha ao enviar foto");
         return;
       }
       await refresh().catch(() => null);
     } finally {
-      setSaving(null);
-    }
-  };
-
-  const resetPhoto = async (slot: "hero" | "photo-1" | "photo-2" | "photo-3") => {
-    setSaving(slot);
-    setError(null);
-    try {
-      const res = await fetch(`/api/photos?slot=${encodeURIComponent(slot)}`, { method: "DELETE" });
-      const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
-      if (!res.ok || !data?.ok) {
-        setError(data?.error ?? "Falha ao remover foto");
-        return;
-      }
-      await refresh().catch(() => null);
-    } finally {
-      setSaving(null);
+      setUploading(null);
     }
   };
 
   const PhotoRow = ({
     label,
     slot,
-    value,
-    draft,
-    setDraft
+    value
   }: {
     label: string;
     slot: "hero" | "photo-1" | "photo-2" | "photo-3";
     value: string | null;
-    draft: string;
-    setDraft: (v: string) => void;
   }) => {
     return (
       <div className="rounded-xl bg-white/70 p-4 ring-1 ring-ink-100">
-        <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">{label}</p>
-        <div className="mt-3 grid gap-3">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-3">
             {value ? (
               <div className="h-20 w-20 shrink-0 overflow-hidden rounded-lg bg-ink-50 ring-1 ring-ink-100">
@@ -169,34 +138,29 @@ export function AdminAccess() {
                 Padrão
               </div>
             )}
-            <div className="flex-1">
-              <p className="text-xs font-medium text-ink-600 mb-1">URL da imagem</p>
-              <input
-                type="url"
-                value={draft}
-                onChange={(e) => setDraft(e.target.value)}
-                placeholder="https://exemplo.com/sua-foto.jpg"
-                className="w-full rounded-xl border border-ink-100 bg-white px-3 py-2 text-xs text-ink-900 shadow-soft focus:outline-none focus-visible:shadow-ring"
-              />
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">{label}</p>
+              <p className="mt-2 break-all text-xs text-ink-700">
+                {value ? "Foto personalizada" : "Padrão do site"}
+              </p>
             </div>
           </div>
-          <div className="flex flex-wrap items-center gap-2 justify-end">
-            <button
-              type="button"
-              onClick={() => resetPhoto(slot)}
-              disabled={saving !== null || !value}
-              className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-ink-700 ring-1 ring-ink-100 transition hover:bg-brand-beige/40 focus:outline-none focus-visible:shadow-ring disabled:opacity-60"
-            >
-              Voltar padrão
-            </button>
-            <button
-              type="button"
-              onClick={() => saveUrl(slot, draft)}
-              disabled={saving !== null || !draft.trim()}
-              className="rounded-full bg-brand-green px-4 py-2 text-xs font-semibold text-white ring-1 ring-brand-green transition hover:bg-brand-green/90 focus:outline-none focus-visible:shadow-ring disabled:opacity-60"
-            >
-              {saving === slot ? "Salvando..." : "Salvar URL"}
-            </button>
+          <div className="flex flex-wrap items-center gap-2">
+            <label className="inline-flex cursor-pointer items-center justify-center rounded-full bg-brand-green px-4 py-2 text-xs font-semibold text-white ring-1 ring-brand-green transition hover:bg-brand-green/90 focus-within:shadow-ring disabled:opacity-60">
+              <input
+                type="file"
+                accept="image/*"
+                className="hidden"
+                onChange={(e) => {
+                  const f = e.target.files?.[0];
+                  if (!f) return;
+                  upload(slot, f);
+                  e.currentTarget.value = "";
+                }}
+                disabled={uploading !== null}
+              />
+              {uploading === slot ? "Enviando..." : "Trocar foto"}
+            </label>
           </div>
         </div>
       </div>
@@ -294,13 +258,14 @@ export function AdminAccess() {
 
             <div className="rounded-xl2 border border-ink-100 bg-white p-6 shadow-soft">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-ink-500">Fotos do site</p>
-              <p className="mt-2 text-xs text-ink-500">Cole a URL da imagem e clique em Salvar. Use imagens hospedadas no Drive, Imgur, Cloudinary, etc.</p>
+              <p className="mt-2 text-xs text-ink-500">Dica: use imagens pequenas (até 500KB) para melhor performance.</p>
               <div className="mt-4 grid gap-3">
-                <PhotoRow label="Hero (topo)" slot="hero" value={photos.hero} draft={draftHero} setDraft={setDraftHero} />
-                <PhotoRow label="Foto 1" slot="photo-1" value={photos.photo1} draft={draftPhoto1} setDraft={setDraftPhoto1} />
-                <PhotoRow label="Foto 2" slot="photo-2" value={photos.photo2} draft={draftPhoto2} setDraft={setDraftPhoto2} />
-                <PhotoRow label="Foto 3 (principal)" slot="photo-3" value={photos.photo3} draft={draftPhoto3} setDraft={setDraftPhoto3} />
+                <PhotoRow label="Hero (topo)" slot="hero" value={photos.hero} />
+                <PhotoRow label="Foto 1" slot="photo-1" value={photos.photo1} />
+                <PhotoRow label="Foto 2" slot="photo-2" value={photos.photo2} />
+                <PhotoRow label="Foto 3 (principal)" slot="photo-3" value={photos.photo3} />
               </div>
+              {uploading ? <p className="mt-4 text-xs text-ink-600">Enviando: {uploading}</p> : null}
             </div>
 
             <div className="rounded-xl2 border border-ink-100 bg-white p-6 shadow-soft">
