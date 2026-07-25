@@ -89,12 +89,36 @@ export default async function HomePage() {
   ) as string[];
 
   const pains = [
-    "Ansiedade",
-    "Estresse",
-    "Baixa autoestima",
-    "Relacionamentos difíceis",
-    "Sobrecarga emocional",
-    "Depressão"
+    {
+      title: "Ansiedade",
+      description:
+        "Pensamentos acelerados, preocupação excessiva e sintomas físicos que parecem não ter explicação. A terapia ajuda a entender gatilhos e construir estratégias para se sentir mais seguro no presente."
+    },
+    {
+      title: "Estresse",
+      description:
+        "Rotina sobrecarregada, cansaço acumulado e sensação de que não consegue dar conta de tudo. Trabalhamos em organização emocional, limites e autocuidado prático e sustentável."
+    },
+    {
+      title: "Baixa autoestima",
+      description:
+        "Comparações excessivas, medo de julgamento e dificuldade de reconhecer suas próprias qualidades. Construímos gradualmente uma relação mais gentil, justa e realista consigo mesmo."
+    },
+    {
+      title: "Relacionamentos difíceis",
+      description:
+        "Ciclos de conflito, dificuldade de se expressar ou de estabelecer limites. A terapia ajuda a desenvolver comunicação assertiva e vínculos mais seguros e respeitosos."
+    },
+    {
+      title: "Sobrecarga emocional",
+      description:
+        "Sensação de carregar o mundo nas costas, com emoções intensas difíceis de nomear ou lidar. Criamos espaço para acolher, organizar e transformar esse peso com leveza."
+    },
+    {
+      title: "Depressão",
+      description:
+        "Desânimo persistente, perda de interesse e sensação de vazio que não passa. Caminhamos juntos para resgatar prazeres, pequenos movimentos e mais sentido no dia a dia."
+    }
   ];
 
   const benefits = [
@@ -274,11 +298,11 @@ export default async function HomePage() {
 
             <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {pains.map((pain, idx) => (
-                <MotionInView key={pain} delay={0.05 * (idx % 3)}>
+                <MotionInView key={pain.title} delay={0.05 * (idx % 3)}>
                   <div className="rounded-xl2 border border-ink-100 bg-white p-6 shadow-soft transition duration-300 will-change-transform hover:-translate-y-1 hover:shadow-[0_18px_50px_rgba(31,41,55,0.12)]">
-                    <p className="text-sm font-semibold text-ink-900">{pain}</p>
+                    <p className="text-sm font-semibold text-ink-900">{pain.title}</p>
                     <p className="mt-2 text-sm leading-relaxed text-ink-700">
-                      Um cuidado psicológico pode trazer clareza, estratégias e apoio para atravessar esse momento.
+                      {pain.description}
                     </p>
                   </div>
                 </MotionInView>
