@@ -177,7 +177,7 @@ export default async function HomePage() {
   return (
     <>
       <header className="sticky top-0 z-40 border-b border-brand-gray/70 bg-white/80 backdrop-blur">
-        <div className="absolute left-0 top-0 z-50 hidden h-full items-center sm:flex">
+        <div className="absolute left-3 sm:left-4 top-0 z-50 hidden h-full items-center sm:flex">
           <ThemeToggle />
         </div>
         <Container>
