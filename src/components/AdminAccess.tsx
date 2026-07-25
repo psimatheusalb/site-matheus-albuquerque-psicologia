@@ -116,6 +116,22 @@ export function AdminAccess() {
     }
   };
 
+  const resetPhoto = async (slot: "hero" | "photo-1" | "photo-2" | "photo-3") => {
+    setUploading(slot);
+    setError(null);
+    try {
+      const res = await fetch(`/api/photos?slot=${encodeURIComponent(slot)}`, { method: "DELETE" });
+      const data = (await res.json().catch(() => null)) as { ok?: boolean; error?: string } | null;
+      if (!res.ok || !data?.ok) {
+        setError(data?.error ?? "Falha ao remover foto");
+        return;
+      }
+      await refresh().catch(() => null);
+    } finally {
+      setUploading(null);
+    }
+  };
+
   const PhotoRow = ({
     label,
     slot,
@@ -146,6 +162,14 @@ export function AdminAccess() {
             </div>
           </div>
           <div className="flex flex-wrap items-center gap-2">
+            <button
+              type="button"
+              onClick={() => resetPhoto(slot)}
+              disabled={uploading !== null || !value}
+              className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-ink-700 ring-1 ring-ink-100 transition hover:bg-brand-beige/40 focus:outline-none focus-visible:shadow-ring disabled:opacity-60"
+            >
+              Voltar para padrão
+            </button>
             <label className="inline-flex cursor-pointer items-center justify-center rounded-full bg-brand-green px-4 py-2 text-xs font-semibold text-white ring-1 ring-brand-green transition hover:bg-brand-green/90 focus-within:shadow-ring disabled:opacity-60">
               <input
                 type="file"
