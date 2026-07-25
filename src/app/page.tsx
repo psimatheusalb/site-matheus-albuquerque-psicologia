@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Container } from "@/components/Container";
 import { MotionInView } from "@/components/MotionInView";
 import { WhatsappCta } from "@/components/WhatsappCta";
-import { TestimonialsCarousel } from "@/components/TestimonialsCarousel";
 import { FaqAccordion } from "@/components/FaqAccordion";
 import { BrandLogo } from "@/components/BrandLogo";
 import { SmartImage } from "@/components/SmartImage";
@@ -504,26 +503,6 @@ export default async function HomePage() {
                   </div>
                 </MotionInView>
               ))}
-            </div>
-          </Container>
-        </section>
-
-        <section
-          id="depoimentos"
-          className="border-y border-brand-gray/70 bg-brand-beige/45 py-14 sm:py-20"
-        >
-          <Container>
-            <div className="grid gap-10 lg:grid-cols-2 lg:items-start">
-              <MotionInView>
-                <SectionTitle
-                  eyebrow="Depoimentos"
-                  title="Relatos de quem encontrou um caminho mais leve"
-                  description="Para preservar o sigilo, os depoimentos são apresentados de forma genérica. Você pode substituir pelos seus, com autorização."
-                />
-              </MotionInView>
-              <MotionInView delay={0.05}>
-                <TestimonialsCarousel />
-              </MotionInView>
             </div>
           </Container>
         </section>
